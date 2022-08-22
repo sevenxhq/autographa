@@ -1,20 +1,17 @@
-import Link from 'next/link';
-import React, { Fragment, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
-  Disclosure, Menu, Transition,
+  Disclosure,
 } from '@headlessui/react';
 import {
-  UserIcon,
   ArrowLeftIcon,
 } from '@heroicons/react/outline';
 import router from 'next/router';
 import { useTranslation } from 'react-i18next';
 import EditorSideBar from '@/modules/editorsidebar/EditorSideBar';
-import { classNames } from '@/util/classNames';
 import { ReferenceContext } from '@/components/context/ReferenceContext';
 import { ProjectContext } from '@/components/context/ProjectContext';
-import { AuthenticationContext } from '@/components/Login/AuthenticationContextProvider';
 import { saveReferenceResource } from '@/core/projects/updateAgSettings';
+import UserProfile from '@/components/Profile/UserProfile';
 import styles from './MenuBar.module.css';
 import LogoIcon from '@/icons/logo.svg';
 
@@ -37,13 +34,9 @@ export default function TopMenuBar() {
       setFontsize,
     },
   } = useContext(ReferenceContext);
-  const userPic = true;
   const { t } = useTranslation();
   const _projectnamewithId = selectedProject;
   const projectname = _projectnamewithId?.split('_');
-  const { action: { logout } } = React.useContext(AuthenticationContext);
-
-  const profile = [t('label-your-profile')];
 
   function closeSideBar(open) {
     setOpenSideBar(open);
@@ -158,91 +151,7 @@ export default function TopMenuBar() {
                 </button> */}
 
                 {/* Profile dropdown */}
-                <Menu as="div" className="ml-3 relative">
-                  {({ open }) => (
-                    <>
-                      <div>
-                        <Menu.Button className="max-w-xs bg-gray-800 border-4 border-gray-300 rounded-full flex items-center text-sm
-                              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-gray-700"
-                        >
-                          <span className="sr-only">Open user menu</span>
-
-                          {/* <UserIcon className="h-8 w-8 rounded-full" /> */}
-
-                          {/* check if user pic available  */}
-                          {userPic
-                            ? (
-                              <div className="h-8 w-8 p-2 bg-primary rounded-full">
-                                <UserIcon className="h-4 w-4 text-white" />
-                              </div>
-                            )
-                            : (
-                              <img
-                                className="h-8 w-8 rounded-full"
-                                src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt=""
-                              />
-                            )}
-
-                          {/* <img
-                            className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                          /> */}
-
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        show={open}
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                      >
-                        <Menu.Items
-                          static
-                          className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                        >
-                          {profile.map((item) => (
-                            <Menu.Item key={item}>
-                              {({ active }) => (
-                                <Link href="/profile">
-                                  <a
-                                    href="#profile"
-                                    className={classNames(
-                                        active ? 'bg-gray-100' : '',
-                                        'block px-4 py-2 text-sm text-gray-700',
-                                      )}
-                                  >
-                                    {item}
-                                  </a>
-                                </Link>
-                                )}
-                            </Menu.Item>
-                          ))}
-                          <Menu.Item key="Sign out">
-                            {({ active }) => (
-                              <a
-                                href="#signout"
-                                id="signout"
-                                onClick={() => logout()}
-                                className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700',
-                                    )}
-                              >
-                                {t('btn-signout')}
-                              </a>
-                                )}
-                          </Menu.Item>
-                        </Menu.Items>
-                      </Transition>
-                    </>
-                  )}
-                </Menu>
+                <UserProfile />
               </div>
             </div>
 
