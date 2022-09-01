@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import localforage from 'localforage';
 import { isElectron } from '@/core/handleElectron';
-import * as logger from '../logger';
+import * as logger from '../../logger';
 
 // custom hook to fetch username from localforage
 export const useGetUserName = (_username) => {
@@ -10,10 +10,8 @@ export const useGetUserName = (_username) => {
         const fetchUserName = async () => {
             try {
                 if (!username && isElectron()) {
-                  await localforage.getItem('userProfile')
-                        .then((value) => {
-                            setUsername(value?.username);
-                        });
+                    const value = await localforage.getItem('userProfile');
+                    setUsername(value?.username);
                 }
             } catch (error) {
                 logger.error('useGetUserName.js', error);

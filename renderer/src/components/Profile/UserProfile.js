@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/outline';
 import { classNames } from '@/util/classNames';
 import { AuthenticationContext } from '@/components/Login/AuthenticationContextProvider';
-import { useGetUserName } from '../../hooks/useGetUserName';
+import { useGetUserName } from '@/components/hooks/useGetUserName';
 
 const UserProfile = (_username) => {
   const { action: { logout } } = React.useContext(AuthenticationContext);
