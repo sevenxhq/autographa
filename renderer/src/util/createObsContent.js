@@ -177,7 +177,6 @@ export const createObsContent = (
         textStories: {
           scriptDirection: direction,
           starred: call === 'edit' ? currentBurrito.project.textStories.starred : false,
-          isArchived: call === 'edit' ? currentBurrito.project.textStories.isArchived : false,
           description: project.description,
           copyright: copyright.title,
           lastSeen: moment().format(),

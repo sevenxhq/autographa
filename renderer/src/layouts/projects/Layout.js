@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   DownloadIcon,
-  ArchiveIcon,
-  DesktopComputerIcon,
 } from '@heroicons/react/outline';
 import { useTranslation } from 'react-i18next';
 import SideBar from './SideBar';
@@ -19,12 +17,9 @@ export default function ProjectsLayout(props) {
     isImport,
     colOne,
     colTwo,
-    showArchived,
-    setShowArchived,
   } = props;
 
   const [openPopUp, setOpenPopUp] = useState(false);
-
   const { t } = useTranslation();
   function openImportPopUp() {
     setOpenPopUp(true);
@@ -32,9 +27,6 @@ export default function ProjectsLayout(props) {
 
   function closeImportPopUp() {
     setOpenPopUp(false);
-  }
-  function toggleArchive() {
-    setShowArchived((value) => !value);
   }
 
   return (
@@ -71,29 +63,7 @@ export default function ProjectsLayout(props) {
                       <ImportProjectPopUp open={openPopUp} closePopUp={closeImportPopUp} />
                     </>
                   )}
-                {/* Archived projects button */}
-                <div>
-                  <button
-                    className="flex text-white ml-5 font-bold text-xs px-3 py-2 rounded-full
-                                    leading-3 tracking-wider uppercase bg-primary items-center"
-                    type="button"
-                    onClick={toggleArchive}
-                  >
 
-                    {showArchived ? (
-                      <>
-                        <DesktopComputerIcon className="h-4 mr-2 text-white" />
-                        <span>Active</span>
-                      </>
-                    ) : (
-                      <>
-                        <ArchiveIcon className="h-4 mr-2 text-white" />
-                        <span>Archived</span>
-                      </>
-)}
-                  </button>
-
-                </div>
               </div>
             )
             : (
@@ -105,20 +75,8 @@ export default function ProjectsLayout(props) {
                 <div className="flex items-end">
                   {colTwo}
                 </div>
-                {/* <div>
-                  <button
-                    className="flex text-white ml-5 font-bold text-xs px-3 py-2 rounded-full
-                                    leading-3 tracking-wider uppercase bg-primary items-center"
-                    type="button"
-                  >
-                    <ArchiveIcon className="h-4 mr-2 text-white" />
-                    {showArchived ? 'Active' : 'Archived'}
-                  </button>
-
-                </div> */}
               </div>
             )}
-
         </header>
 
         {children}
@@ -138,6 +96,4 @@ ProjectsLayout.propTypes = {
   isImport: PropTypes.bool,
   colOne: PropTypes.element,
   colTwo: PropTypes.element,
-  showArchived: PropTypes.bool,
-  setShowArchived: PropTypes.bool,
 };
