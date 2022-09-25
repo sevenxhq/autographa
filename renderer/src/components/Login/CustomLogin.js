@@ -33,12 +33,11 @@ const CustomLogin = ({
             data-testid="autocomplete"
             className="text-xs h-12 appearance-none w-full py-2 pl-4"
             options={userlist}
+            value={values}
             getOptionLabel={(option) => option.username || ''}
-            onChange={handleChange(values)}
-            getOptionSelected={(option, value) => option.username === value.username}
-            onInputChange={(event, newInputValue) => {
-                    setValue({ ...values, username: newInputValue });
-                  }}
+            onChange={(event, newValue) => setValue(newValue)}
+            isOptionEqualToValue={(option, value) => option.username === value.username}
+            noOptionsText="Username not found"
             renderInput={(params) => (
               <TextField className="outline-none" {...params} label={v.label} error={error.username} />
                   )}
