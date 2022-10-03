@@ -27,6 +27,7 @@ export default function ProjectList() {
   const { t } = useTranslation();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
+  const [showArchived, setShowArchived] = useState(false);
 
   const filterList = ['name', 'language', 'type', 'date', 'view'];
   const {
@@ -109,14 +110,17 @@ export default function ProjectList() {
     await FetchProjects();
   };
 
-  const [showArchived, setShowArchived] = useState(false);
-
   function filterArchive(project) {
     if (project.isArchived === showArchived || project.isArchived === undefined) {
       return true;
     }
     return false;
   }
+  const updateState = () => {
+    setTimeout(() => {
+      setShowArchived((prev) => !prev);
+    }, 1000);
+  };
 
   return (
     <>
@@ -256,7 +260,7 @@ export default function ProjectList() {
                                                           <button
                                                             type="button"
                                                             className={`${active ? 'bg-primary text-white' : 'text-gray-900'
-                                                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                                              } group flex rounded-md items-center w-full px-2 py-2 text-sm ${project.isArchived ? 'hidden' : 'flex'}`}
                                                             onClick={() => editproject(project)}
                                                           >
                                                             {t('btn-edit')}
@@ -268,7 +272,7 @@ export default function ProjectList() {
                                                           <button
                                                             type="button"
                                                             className={`${active ? 'bg-primary text-white' : 'text-gray-900'
-                                                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                                              } group rounded-md items-center w-full px-2 py-2 text-sm ${project.isArchived ? 'hidden' : 'flex'}`}
                                                             onClick={() => openExportPopUp(project)}
                                                           >
                                                             {t('btn-export')}
@@ -283,7 +287,7 @@ export default function ProjectList() {
                                                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                                             onClick={() => {
                                                               archiveProject(project, project.name);
-                                                              setShowArchived(!showArchived);
+                                                              updateState();
                                                             }}
                                                           >
                                                             {project.isArchived === true ? 'Restore' : 'Archive'}
@@ -418,7 +422,7 @@ export default function ProjectList() {
                                                             type="button"
                                                             aria-label="edit-project"
                                                             className={`${active ? 'bg-primary text-white' : 'text-gray-900'
-                                                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                                              } group rounded-md items-center w-full px-2 py-2 text-sm ${project.isArchived ? 'hidden' : 'flex'}`}
                                                             onClick={() => editproject(project)}
                                                           >
                                                             {t('btn-edit')}
@@ -430,7 +434,7 @@ export default function ProjectList() {
                                                           <button
                                                             type="button"
                                                             className={`${active ? 'bg-primary text-white' : 'text-gray-900'
-                                                              } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                                                              } group rounded-md items-center w-full px-2 py-2 text-sm ${project.isArchived ? 'hidden' : 'flex'}`}
                                                             onClick={() => openExportPopUp(project)}
                                                           >
                                                             {t('btn-export')}
@@ -445,7 +449,7 @@ export default function ProjectList() {
                                                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                                                             onClick={() => {
                                                               archiveProject(project, project.name);
-                                                              setShowArchived(!showArchived);
+                                                              updateState();
                                                             }}
                                                           >
                                                             {project.isArchived === true ? 'Restore' : 'Archive'}
