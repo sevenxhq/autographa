@@ -1,5 +1,6 @@
 // Native
 require('@electron/remote/main').initialize();
+const os = require('os');
 const { join } = require('path');
 const { format } = require('url');
 
@@ -10,12 +11,24 @@ const prepareNext = require('electron-next');
 const { autoUpdater } = require('electron-updater');
 
 let mainWindow;
+let iconPath;
+    switch (os.platform()) {
+      case 'darwin':      
+          iconPath =  join(__dirname, '../public/icons/icon.icns') ;
+          break;
+      case 'win32':
+        iconPath = join(__dirname, '../public/icons/icon.ico');
+          break;
+      default:
+        iconPath = join(__dirname, '../public/icons/png/512x512.png');
+          break;
+  }
 // Prepare the renderer once the app is ready
 function createWindow() {
- mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 900,
     height: 600,
-    icon: join(__dirname, '../public/icons/ag-logo.ico'),
+    icon: iconPath,
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
@@ -29,10 +42,11 @@ function createWindow() {
   const url = isDev
     ? 'http://localhost:8000'
     : format({
-        pathname: join(__dirname, '../renderer/out/index.html'),
-        protocol: 'file:',
-        slashes: true,
-      });
+      pathname: join(__dirname, '../renderer/out/index.html'),
+      protocol: 'file:',
+      slashes: true,
+    });
+
 
   mainWindow.loadURL(url);
   autoUpdater.checkForUpdatesAndNotify();
@@ -67,9 +81,9 @@ ipcMain.on('app_version', (event) => {
     {
       version: app.getVersion(),
       appPath: process.env.APPDATA
-      ? process.env.APPDATA : `${process.env.HOME}/.config`,
+        ? process.env.APPDATA : `${process.env.HOME}/.config`,
     },
-);
+  );
 });
 
 autoUpdater.on('update-available', () => {
@@ -77,9 +91,9 @@ autoUpdater.on('update-available', () => {
 });
 
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = `Download speed: ${ progressObj.bytesPerSecond}`;
-  log_message = `${log_message } - Downloaded ${ progressObj.percent }%`;
-  log_message = `${log_message } (${ progressObj.transferred }/${ progressObj.total })`;
+  let log_message = `Download speed: ${progressObj.bytesPerSecond}`;
+  log_message = `${log_message} - Downloaded ${progressObj.percent}%`;
+  log_message = `${log_message} (${progressObj.transferred}/${progressObj.total})`;
   mainWindow.webContents.send(log_message);
 });
 
