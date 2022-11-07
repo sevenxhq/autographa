@@ -8,6 +8,7 @@ import SectionPlaceholder from '@/layouts/editor/SectionPlaceholder1';
 
 import AutographaContextProvider from '@/components/context/AutographaContext';
 import ScribexContextProvider from '@/components/context/ScribexContext';
+import XelahEditor from '@/components/EditorPage/Scribex/XelahEditor';
 
 const Scribex = dynamic(
   () => import('@/components/EditorPage/Scribex/Scribex'),
@@ -20,18 +21,16 @@ const home = () => (
       <AutographaContextProvider>
         <ProjectContextProvider>
           <ReferenceContextProvider>
-            <ScribexContextProvider>
               <CustomNavigationContextProvider>
                 <EditorLayout>
                   <div className="grid grid-flow-col auto-cols-fr m-3 h-editor gap-2">
                     <SectionPlaceholder />
                     <div className="bg-white m-3 ml-0 border-b-2 border-secondary rounded-md shadow overflow-hidden">
-                      <Scribex />
+                      <XelahEditor />
                     </div>
                   </div>
                 </EditorLayout>
               </CustomNavigationContextProvider>
-            </ScribexContextProvider>
           </ReferenceContextProvider>
         </ProjectContextProvider>
       </AutographaContextProvider>

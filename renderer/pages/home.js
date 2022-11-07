@@ -13,11 +13,9 @@ export default function ReferenceSelector() {
       <ProjectContextProvider>
         <ReferenceContextProvider>
           <AutographaContextProvider>
-            <ScribexContextProvider>
               <EditorLayout>
                 <SectionContainer />
               </EditorLayout>
-            </ScribexContextProvider>
           </AutographaContextProvider>
         </ReferenceContextProvider>
       </ProjectContextProvider>

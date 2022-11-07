@@ -51,9 +51,7 @@ const Home = () => {
             <ProjectContextProvider>
               <ReferenceContextProvider>
                 <AutographaContextProvider>
-                  <ScribexContextProvider>
                     <ProjectList />
-                  </ScribexContextProvider>
                 </AutographaContextProvider>
               </ReferenceContextProvider>
             </ProjectContextProvider>

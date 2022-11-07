@@ -5,6 +5,7 @@ import ObsEditor from '@/components/EditorPage/ObsEditor/ObsEditor';
 import AudioEditor from '@/components/EditorPage/AudioEditor/AudioEditor';
 import SectionPlaceholder1 from './SectionPlaceholder1';
 import SectionPlaceholder2 from './SectionPlaceholder2';
+import XelahEditor from '@/components/EditorPage/Scribex/XelahEditor';
 // import Scribex from '@/components/EditorPage/Scribex/Scribex';
 
 const Scribex = dynamic(
@@ -38,7 +39,7 @@ const SectionContainer = () => {
       <div className="grid grid-flow-col auto-cols-fr m-3 gap-2">
         <SectionPlaceholder1 editor={editor} />
         <SectionPlaceholder2 editor={editor} />
-        {(editor === 'textTranslation' && <Scribex />)
+        {(editor === 'textTranslation' && <XelahEditor />)
       || (editor === 'textStories' && <ObsEditor />)
       || (editor === 'audioTranslation' && <AudioEditor editor={editor} />)}
       </div>
