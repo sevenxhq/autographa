@@ -85,51 +85,49 @@ export default function Scribex() {
 		setBookChange,
 	};
 	return (
-		<div className='layout'>
-			<div className='flex m-3 gap-2'>
-				<EditorSideBar
-					isOpen={openSideBar}
-					closeSideBar={closeSideBar}
-					footnoteProps={_props}
-				/>
-				<div className='bg-white border-b-2 border-secondary rounded-md shadow h-editor overflow-hidden'>
-					<div className='flex items-center justify-between bg-secondary rounded-t-md overflow-hidden sticky top-0 left-0 right-0'>
-						<BibleNavigationX />
-						<div
-							aria-label='editor-pane'
-							className='h-4 flex justify-center items-center text-white text-xxs uppercase tracking-wider font-bold leading-3 truncate'>
-							Editor
-						</div>
-						<div className='flex items-center'>
-							<Buttons {..._props} />
-						</div>
-						<div
-							title='navigation lock/unlock'
-							className='flex items-center'>
-							<div>
-								<LockClosedIcon
-									aria-label='close-lock'
-									className='h-5 w-5 text-white'
-									aria-hidden='true'
-								/>
-							</div>
-							<div
-								role='button'
-								tabIndex='0'
-								title='bookmark'
-								className='mx-1 px-2 focus:outline-none border-r-2 border-l-2 border-white border-opacity-10'>
-								<BookmarkIcon
-									className='h-5 w-5 text-white'
-									aria-hidden='true'
-								/>
-							</div>
-						</div>
+		<>
+			<EditorSideBar
+				isOpen={openSideBar}
+				closeSideBar={closeSideBar}
+				footnoteProps={_props}
+			/>
+			<div className='bg-white border-b-2 border-secondary rounded-md shadow h-editor overflow-hidden'>
+				<div className='flex items-center justify-between bg-secondary rounded-t-md overflow-hidden sticky top-0 left-0 right-0'>
+					<BibleNavigationX />
+					<div
+						aria-label='editor-pane'
+						className='h-4 flex justify-center items-center text-white text-xxs uppercase tracking-wider font-bold leading-3 truncate'>
+						Editor
 					</div>
-					<div className='border-l-2 border-r-2 border-secondary pb-16 max-w-none overflow-y-auto h-full no-scrollbars'>
-						<Editor {..._props} />
+					<div className='flex items-center'>
+						<Buttons {..._props} />
+					</div>
+					<div
+						title='navigation lock/unlock'
+						className='flex items-center'>
+						<div>
+							<LockClosedIcon
+								aria-label='close-lock'
+								className='h-5 w-5 text-white'
+								aria-hidden='true'
+							/>
+						</div>
+						<div
+							role='button'
+							tabIndex='0'
+							title='bookmark'
+							className='mx-1 px-2 focus:outline-none border-r-2 border-l-2 border-white border-opacity-10'>
+							<BookmarkIcon
+								className='h-5 w-5 text-white'
+								aria-hidden='true'
+							/>
+						</div>
 					</div>
 				</div>
+				<div className='border-l-2 border-r-2 border-secondary pb-16 max-w-none overflow-y-auto h-full no-scrollbars'>
+					<Editor {..._props} />
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
