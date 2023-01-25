@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 
@@ -48,7 +48,7 @@ export default function ProjectList() {
       setActiveNotificationCount,
       FetchProjects,
     },
-  } = React.useContext(AutographaContext);
+  } = useContext(AutographaContext);
   const [callEditProject, setCallEditProject] = useState(false);
   const [openPopUp, setOpenPopUp] = useState(false);
   const [currentProject, setCurrentProject] = useState();
@@ -65,22 +65,22 @@ export default function ProjectList() {
     setOrderBy(property);
   };
 
-  const handleSelectProject = (event, projectName, projectId) => {
+  const handleSelectProject = async (event, projectName, projectId) => {
     logger.debug('ProjectList.js', 'In handleSelectProject');
     setSelectedProject(projectName);
-    localforage.setItem('currentProject', `${projectName}_${projectId}`);
+    await localforage.setItem('currentProject', `${projectName}_${projectId}`);
     router.push('/home');
-    localforage.getItem('notification').then((value) => {
-      const temp = [...value];
-      temp.push({
-        title: 'Project',
-        text: `successfully loaded ${projectName} files`,
-        type: 'success',
-        time: moment().format(),
-        hidden: true,
-      });
-      setNotifications(temp);
-    }).then(() => setActiveNotificationCount(activeNotificationCount + 1));
+    const value = await localforage.getItem('notification');
+    const temp = [...value];
+    temp.push({
+      title: 'Project',
+      text: `successfully loaded ${projectName} files`,
+      type: 'success',
+      time: moment().format(),
+      hidden: true,
+    });
+    setNotifications(temp);
+    setActiveNotificationCount(activeNotificationCount + 1);
   };
 
   const editproject = async (project) => {
@@ -88,23 +88,22 @@ export default function ProjectList() {
     const path = require('path');
     const fs = window.require('fs');
     const newpath = localStorage.getItem('userPath');
-    await localforage.getItem('userProfile').then((value) => {
-      const folder = path.join(newpath, 'autographa', 'users', value.username, 'projects', `${project.name}_${project.id[0]}`);
-      const data = fs.readFileSync(path.join(folder, 'metadata.json'), 'utf-8');
-      let metadata = JSON.parse(data);
-      const firstKey = Object.keys(metadata.ingredients)[0];
-      const folderName = firstKey.split(/[(\\)?(/)?]/gm).slice(0, -1);
-      let dirName = '';
-      folderName.forEach((folder) => {
-        dirName = path.join(dirName, folder);
-      });
-      const settings = fs.readFileSync(path.join(folder, dirName, 'ag-settings.json'), 'utf-8');
-      const agSetting = JSON.parse(settings);
-      metadata = { ...metadata, ...agSetting };
-      logger.debug('ProjectList.js', 'Loading current project metadata');
-      setCurrentProject(metadata);
-      setCallEditProject(true);
+    const value = await localforage.getItem('userProfile');
+    const folder = path.join(newpath, 'autographa', 'users', value.username, 'projects', `${project.name}_${project.id[0]}`);
+    const data = fs.readFileSync(path.join(folder, 'metadata.json'), 'utf-8');
+    let metadata = JSON.parse(data);
+    const firstKey = Object.keys(metadata.ingredients)[0];
+    const folderName = firstKey.split(/[(\\)?(/)?]/gm).slice(0, -1);
+    let dirName = '';
+    folderName.forEach((folder) => {
+      dirName = path.join(dirName, folder);
     });
+    const settings = fs.readFileSync(path.join(folder, dirName, 'ag-settings.json'), 'utf-8');
+    const agSetting = JSON.parse(settings);
+    metadata = { ...metadata, ...agSetting };
+    logger.debug('ProjectList.js', 'Loading current project metadata');
+    setCurrentProject(metadata);
+    setCallEditProject(true);
   };
 
   const closeEditProject = async () => {
