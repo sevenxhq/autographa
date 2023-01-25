@@ -4,7 +4,7 @@ import { isElectron } from '@/core/handleElectron';
 import * as logger from '../../logger';
 
 // custom hook to fetch username from localforage
-export const useGetUserName = (_username) => {
+export const useGetUserName = () => {
     const [username, setUsername] = useState('');
     useEffect(() => {
         const fetchUserName = async () => {
@@ -18,6 +18,6 @@ export const useGetUserName = (_username) => {
             }
         };
         fetchUserName();
-    }, [username, _username]);
+    }, [username]);
     return { username };
 };

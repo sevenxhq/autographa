@@ -22,15 +22,15 @@ export const createUser = (values, fs) => {
  * @param users - [{
  */
 export const writeToFile = (users) => {
-  const newpath = localStorage.getItem('userPath');
-  const fs = window.require('fs');
-  const path = require('path');
-  const file = path.join(newpath, 'autographa', 'users', 'users.json');
-  fs.writeFileSync(file, JSON.stringify(users), (err) => {
-    if (err) {
-      logger.debug('handleLogin.js', 'Error saving users to disk');
-    }
-  });
+  try {
+    const newpath = localStorage.getItem('userPath');
+    const fs = window.require('fs');
+    const path = require('path');
+    const file = path.join(newpath, 'autographa', 'users', 'users.json');
+    fs.promises.writeFile(file, JSON.stringify(users));
+  } catch (err) {
+    logger.debug('handleLogin.js', 'Error saving users to disk');
+  }
 };
 
 /**
@@ -41,17 +41,14 @@ export const writeToFile = (users) => {
  * @returns The user object.
  */
 export const handleLogin = async (users, values) => {
-  logger.debug('handleLogin.js', 'In handleLogin function');
-  if (users) {
-    const user = users.find((value) => value.username === values.username);
-    if (user) {
-      user.lastSeen = new Date();
-      logger.debug('handleLogin.js', 'Found user');
-      users.map((obj) => user.username === obj.username || obj);
-      writeToFile(users);
-      await localforage.setItem('users', users);
-      return user;
-    }
-  }
-  return null;
+  if (!users) { return null; }
+  const user = users.find((u) => u.username === values.username);
+  if (!user) { return null; }
+
+  user.lastSeen = new Date();
+  await Promise.all([
+    writeToFile(users),
+    localforage.setItem('users', users),
+  ]);
+  return user;
 };

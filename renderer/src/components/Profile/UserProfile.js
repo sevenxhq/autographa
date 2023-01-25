@@ -11,14 +11,14 @@ import { classNames } from '@/util/classNames';
 import { AuthenticationContext } from '@/components/Login/AuthenticationContextProvider';
 import { useGetUserName } from '@/components/hooks/useGetUserName';
 
-const UserProfile = (_username) => {
+const UserProfile = () => {
   const { action: { logout } } = React.useContext(AuthenticationContext);
   const { t } = useTranslation();
   const profile = [t('label-your-profile')];
   const userPic = true;
 
   // get username from custom hook
-  const { username } = useGetUserName(_username);
+  const { username } = useGetUserName();
 
   return (
     <div>

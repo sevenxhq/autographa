@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as localForage from 'localforage';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { PencilIcon, CheckIcon } from '@heroicons/react/24/outline';
@@ -66,41 +66,40 @@ function InputBar({ title }) {
 }
 
 export default function UserProfile() {
-  const [username, setUsername] = React.useState();
-  const [appMode, setAppMode] = React.useState('online');
-  const [values, setValues] = React.useState({
+  const [username, setUsername] = useState();
+  const [appMode, setAppMode] = useState('online');
+  const [values, setValues] = useState({
     firstname: '',
     lastname: '',
     email: '',
     selectedregion: '',
     organization: '',
   });
-  const [appLang, setAppLang] = React.useState(languages[0]);
-  const [snackBar, setOpenSnackBar] = React.useState(false);
-  const [snackText, setSnackText] = React.useState('');
-  const [notify, setNotify] = React.useState();
+  const [appLang, setAppLang] = useState(languages[0]);
+  const [snackBar, setOpenSnackBar] = useState(false);
+  const [snackText, setSnackText] = useState('');
+  const [notify, setNotify] = useState();
   const { t } = useTranslation();
-  // const [enabled, setEnabled] = React.useState(false);
+  // const [enabled, setEnabled] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!username && isElectron()) {
-      localForage.getItem('userProfile')
-        .then((value) => {
-          setUsername(value.username);
-          const keys = Object.keys(values);
-          keys.forEach((key) => {
-            values[key] = value[key];
-          });
-          setValues(values);
+      const getData = async () => {
+        const userProfile = await localForage.getItem('userProfile');
+        const appMode = await localForage.getItem('appMode');
+        setUsername(userProfile.username);
+        const keys = Object.keys(values);
+        keys.forEach((key) => {
+          values[key] = userProfile[key];
         });
-      localForage.getItem('appMode')
-        .then((value) => {
-          setAppMode(value);
-        });
+        setValues(values);
+        setAppMode(appMode);
+      };
+      getData();
     }
   }, [username, values, appMode]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const currentLang = languages.filter(
       (lang) => lang.code === i18n.language,
     );
