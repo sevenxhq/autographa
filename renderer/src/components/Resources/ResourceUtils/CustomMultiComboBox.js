@@ -29,7 +29,7 @@ function CustomMultiComboBox({
 
                 <Combobox.Input
                   className="w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-                  displayValue={(language) => language?.ang}
+                  // displayValue={(language) => language?.ang}
                   placeholder={`${selectedList.length > 0 ? `${selectedList[0][filterParams]}... click for more` : 'Select Language'}`}
                   onFocus={() => !open && setIsActive(true)}
                   onBlur={() => setIsActive(false)}
@@ -42,7 +42,6 @@ function CustomMultiComboBox({
                   <div>
                     {selectedList.length > 0 && !query.length > 0 && <div className="mt-1 mb-2 h-[.1rem] w-full bg-secondary" />}
                     {filteredData.map((data) => (
-                      // <Combobox.Option key={data?.id || data?.pk} className={`${selectedList.includes(data) ? 'bg-gray-400' : ''} hover:bg-gray-300 p-1`} value={data}>
                       <Combobox.Option key={data?.id || data?.pk} className=" hover:bg-gray-300 p-1" value={data}>
                         {data[filterParams]}
                       </Combobox.Option>

@@ -21,6 +21,12 @@ export default function usePerf({
   const [htmlPerf, setHtmlPerf] = useState();
   const [usfmText, setUsfmText] = useState();
 
+  const readOptions = { readPipeline: "stripAlignmentPipeline" };
+const writeOptions = {
+  writePipeline: "mergeAlignmentPipeline",
+  ...readOptions
+};
+
   const epiteleteHtml = useDeepCompareMemo(
     () => ready
       && new EpiteleteHtml({
@@ -34,7 +40,7 @@ export default function usePerf({
 
   useDeepCompareEffect(() => {
     if (epiteleteHtml) {
-      epiteleteHtml.readHtml(bookCode, { safe: true }, htmlMap).then((_htmlPerf) => {
+      epiteleteHtml.readHtml(bookCode, readOptions, htmlMap).then((_htmlPerf) => {
         // remove htmlMap for default classes
         setHtmlPerf(_htmlPerf);
       });
@@ -61,6 +67,7 @@ export default function usePerf({
           bookCode,
           sequenceId,
           _htmlPerf,
+          writeOptions
         );
         // if (verbose) { console.log({ info: 'Saved sequenceId', bookCode, sequenceId }); }
 
