@@ -17,6 +17,7 @@ import { SnackBar } from '@/components/SnackBar';
 import useAddNotification from '@/components/hooks/useAddNotification';
 import { fetchSettingsResourceHistory } from '@/core/editor/fetchSettingsResourceHistory';
 import { saveSettingsResourceHistory } from '@/core/editor/saveSettingsResourceHistory';
+import MenuDropdown from '@/components/MenuDropdown/MenuDropdown';
 import * as logger from '../../logger';
 
 const TranslationHelps = dynamic(
@@ -60,12 +61,16 @@ const SectionPlaceholder1 = ({ editor }) => {
       verse,
       obsNavigation,
       resetResourceOnDeleteOffline,
+      font1,
+      font2,
     },
     actions: {
       setRow,
       setLayout,
       setOpenResource1,
       setOpenResource2,
+      setFont1,
+      setFont2,
       // applyBooksFilter,
       setResetResourceOnDeleteOffline,
     },
@@ -298,7 +303,9 @@ const SectionPlaceholder1 = ({ editor }) => {
                   setOpenResource2={setOpenResource2}
                   setRemovingSection={setRemovingSection}
                   setAddingSection={setAddingSection}
+                  font={font1}
                 >
+                  <MenuDropdown row="1" selectedFont={font1} setSelectedFont={setFont1} />
                   {
                   (loadResource1 === true)
               && ((referenceColumnOneData1.selectedResource === 'bible' && (
@@ -366,7 +373,10 @@ const SectionPlaceholder1 = ({ editor }) => {
                 CustomNavigation={(referenceColumnOneData2.selectedResource).lastIndexOf('obs', 0) === 0 ? ObsNavigation2 : CustomNavigation2}
                 setRemovingSection={setRemovingSection}
                 setAddingSection={setAddingSection}
+                font={font2}
               >
+                <MenuDropdown row="2" selectedFont={font2} setSelectedFont={setFont2} />
+
                 {
               (loadResource2 === true)
               && ((referenceColumnOneData2.selectedResource === 'bible' && (
