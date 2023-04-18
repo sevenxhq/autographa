@@ -2744,9 +2744,9 @@
     "prop-types" "^15.8.1"
     "react-is" "^18.2.0"
 
-"@netlify/esbuild-linux-64@0.14.39":
-  "integrity" "sha512-IQtswVw7GAKNX/3yV390wSfSXvMWy0d5cw8csAffwBk9gupftY2lzepK4Cn6uD/aqLt3Iku33FbHop/2nPGfQA=="
-  "resolved" "https://registry.npmjs.org/@netlify/esbuild-linux-64/-/esbuild-linux-64-0.14.39.tgz"
+"@netlify/esbuild-windows-64@0.14.39":
+  "integrity" "sha512-I3gCdO8+6IDhT4Y1ZmV4o2Gg0oELv7N4kCcE4kqclz10fWHNjf19HQNHyBJe0AWnFV5ZfT154VVD31dqgwpgFw=="
+  "resolved" "https://registry.npmjs.org/@netlify/esbuild-windows-64/-/esbuild-windows-64-0.14.39.tgz"
   "version" "0.14.39"
 
 "@netlify/esbuild@0.14.39":
@@ -2838,14 +2838,9 @@
   dependencies:
     "glob" "7.1.7"
 
-"@next/swc-linux-x64-gnu@13.0.1":
-  "integrity" "sha512-XDIHEE6SU8VCF+dUVntD6PDv6RK31N0forx9kucZBYirbe8vCZ+Yx8hYgvtIaGrTcWtGxibxmND0pIuHDq8H5g=="
-  "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.0.1.tgz"
-  "version" "13.0.1"
-
-"@next/swc-linux-x64-musl@13.0.1":
-  "integrity" "sha512-yxIOuuz5EOx0F1FDtsyzaLgnDym0Ysxv8CWeJyDTKKmt9BVyITg6q/cD+RP9bEkT1TQi+PYXIMATSz675Q82xw=="
-  "resolved" "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.0.1.tgz"
+"@next/swc-win32-x64-msvc@13.0.1":
+  "integrity" "sha512-t/0G33t/6VGWZUGCOT7rG42qqvf/x+MrFp1CU+8CN6PrjSSL57R5bqkXfubV9t4eCEnUxVP+5Hn3MoEXEebtEw=="
+  "resolved" "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.0.1.tgz"
   "version" "13.0.1"
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
@@ -14092,6 +14087,8 @@
     "write-file-atomic" "*"
 
 "npmlog@*":
+  "integrity" "sha512-AqZtDUWOMKs1G/8lwylVjrdYgqA4d9nu8hc+0gzRxlDb1I10+FHBGMXs6aiQHFdCUUlqH99MUMuLfzWDNDtfxw=="
+  "resolved" "https://registry.npmjs.org/npmlog/-/npmlog-5.0.1.tgz"
   "version" "5.0.1"
   dependencies:
     "are-we-there-yet" "^2.0.0"

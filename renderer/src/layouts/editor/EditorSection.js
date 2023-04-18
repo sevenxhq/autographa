@@ -36,6 +36,7 @@ export default function EditorSection({
   CustomNavigation,
   setRemovingSection,
   setAddingSection,
+  font,
 }) {
   const [openResourcePopUp, setOpenResourcePopUp] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -191,7 +192,7 @@ export default function EditorSection({
           <div className="bg-gray-200 rounded-t overflow-hidden">
             <div className="flex">
               {selectedResource === 'ta' || selectedResource === 'tw' ? (
-                <div className="h-12 flex">
+                <div className="h-12 relative flex">
                   {selectedResource === 'ta' ? (
                     <TaNavigation
                       languageId={languageId}
@@ -258,7 +259,7 @@ export default function EditorSection({
         </div>
 
         <div
-          style={{ fontFamily: 'sans-serif', fontSize: `${fontSize}rem`, direction: `${projectScriptureDir?.toUpperCase() === 'RTL' ? 'rtl' : 'ltr'}` }}
+          style={{ fontFamily: `${font}`, fontSize: `${fontSize}rem`, direction: `${projectScriptureDir?.toUpperCase() === 'RTL' ? 'rtl' : 'ltr'}` }}
           className="prose-sm p-4 text-xl h-full overflow-auto scrollbars-width"
         >
           {
