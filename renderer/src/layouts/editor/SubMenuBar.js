@@ -34,12 +34,14 @@ export default function SubMenuBar() {
     state: {
       layout,
       row,
+      selectedFont,
     },
     actions: {
       setOpenResource1,
       setOpenResource3,
       setLayout,
       setRow,
+      setSelectedFont,
     },
   } = useContext(ReferenceContext);
   const {
@@ -65,10 +67,10 @@ export default function SubMenuBar() {
     {
       itemname: 'Font',
       icon: <Font />,
-      renderElement: <MenuDropdown />,
+      renderElement: <MenuDropdown selectedFont={selectedFont} setSelectedFont={setSelectedFont} />,
       callback: activate,
     },
-    ];
+  ];
 
   const handleResource = () => {
     if (layout === 0) {
