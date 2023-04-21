@@ -11,7 +11,7 @@ import { ProjectContext } from '@/components/context/ProjectContext';
 import EditorSideBar from '@/modules/editorsidebar/EditorSideBar';
 import Buttons from './Buttons';
 import Editor from './Editor';
-import PopupButton from "./PopupButton";
+import PopupButton from './PopupButton';
 
 export default function Scribex(props) {
   const { state, actions } = useContext(ScribexContext);
@@ -19,8 +19,8 @@ export default function Scribex(props) {
   const { usfmData, bookAvailable } = props;
   const [selectedBook, setSelectedBook] = useState();
   const [bookChange, setBookChange] = useState(false);
-  const [chapterNumber, setChapterNumber] = useState(1)
-  const [verseNumber, setVerseNumber] = useState(1)
+  const [chapterNumber, setChapterNumber] = useState(1);
+  const [verseNumber, setVerseNumber] = useState(1);
   const [triggerVerseInsert, setTriggerVerseInsert] = useState(false);
   const [newVerChapNumber, setInsertNumber] = useState('');
   const [insertVerseRChapter, setInsertVerseRChapter] = useState('');
@@ -30,7 +30,7 @@ export default function Scribex(props) {
 
   const handleClick = (number, title) => {
     setInsertNumber(number);
-    setInsertVerseRChapter(title)
+    setInsertVerseRChapter(title);
     setTriggerVerseInsert(!triggerVerseInsert);
   };
   let selectedDocument;
@@ -43,7 +43,9 @@ export default function Scribex(props) {
     documents: usfmData,
   });
   const {
-    state: { bookId, selectedFont, fontSize, projectScriptureDir },
+    state: {
+      bookId, selectedFont, fontSize, projectScriptureDir,
+    },
   } = useContext(ReferenceContext);
   const {
     states: { scrollLock },
@@ -115,60 +117,58 @@ export default function Scribex(props) {
         closeSideBar={closeSideBar}
         footnoteProps={_props}
       />
-      <div className='flex flex-col bg-white border-b-2 border-secondary h-editor rounded-md shadow scrollbar-width'>
-        <div className='flex flex-wrap items-center justify-between bg-secondary rounded-t-md overflow-hidden'>
+      <div className="flex flex-col bg-white border-b-2 border-secondary h-editor rounded-md shadow scrollbar-width">
+        <div className="flex flex-wrap items-center justify-between bg-secondary rounded-t-md overflow-hidden">
           <BibleNavigationX chapterNumber={chapterNumber} setChapterNumber={setChapterNumber} verseNumber={verseNumber} setVerseNumber={setVerseNumber} />
           <div
-            aria-label='editor-pane'
-            className='h-4 flex flex-1 justify-center text-white text-xxs uppercase tracking-wider font-bold leading-3 truncate'
+            aria-label="editor-pane"
+            className="h-4 flex flex-1 justify-center text-white text-xxs uppercase tracking-wider font-bold leading-3 truncate"
           >
             Editor
           </div>
-          <div className='flex items-center'>
-            <Buttons {..._props} />
-          </div>
           <div
-            title='navigation lock/unlock'
-            className='flex items-center'
+            title="navigation lock/unlock"
+            className="flex items-center mr-auto"
           >
             <div>
               {scrollLock === true ? (
                 <LockOpenIcon
-                  aria-label='open-lock'
-                  className='h-5 mr-2 w-5 text-white cursor-pointer'
-                  aria-hidden='true'
+                  aria-label="open-lock"
+                  className="h-5 mr-2 w-5 text-white cursor-pointer"
+                  aria-hidden="true"
                   onClick={() => setScrollLock(!scrollLock)}
                 />
               ) : (
                 <LockClosedIcon
-                  aria-label='close-lock'
-                  className='h-5 mr-2 w-5 text-white cursor-pointer'
-                  aria-hidden='true'
+                  aria-label="close-lock"
+                  className="h-5 mr-2 w-5 text-white cursor-pointer"
+                  aria-hidden="true"
                   onClick={() => setScrollLock(!scrollLock)}
                 />
               )}
             </div>
             <div
-              role='button'
-              tabIndex='0'
-              title='bookmark'
-              className='mx-1 px-2 focus:outline-none border-r-2 border-l-2 border-white border-opacity-10'
+              role="button"
+              tabIndex="0"
+              title="bookmark"
+              className="mx-1 px-2 focus:outline-none border-r-2 border-l-2 border-white border-opacity-10"
             >
               <BookmarkIcon
-                className='h-5 mr-2 w-5 text-white cursor-pointer'
-                aria-hidden='true'
+                className="h-5 mr-2 w-5 text-white cursor-pointer"
+                aria-hidden="true"
               />
             </div>
           </div>
-          <div className='pt-2 flex'>
-            <PopupButton handleClick={handleClick} title={'Verse'} className='flex' />
-            <PopupButton handleClick={handleClick} title={'Chapter'} className='flex' />
-            <PopupButton handleClick={handleClick} title={'Footnote'} className='flex' />
-            <PopupButton handleClick={handleClick} title={'Cross Reference'} className='flex' />
+          <div className="my-3 mx-6 flex items-center justify-center">
+            <div className="flex items-center">
+              <Buttons {..._props} />
+            </div>
+            {/* <PopupButton handleClick={handleClick} title="Verse" className="flex" /> */}
+            {/* <PopupButton handleClick={handleClick} title="Chapter" className="flex" /> */}
+            {/* <PopupButton handleClick={handleClick} title="Footnote" className="flex" /> */}
+            {/* <PopupButton handleClick={handleClick} title="Cross Reference" className="flex" /> */}
           </div>
         </div>
-
-
 
         <div
           style={{
@@ -178,7 +178,7 @@ export default function Scribex(props) {
             direction: `${projectScriptureDir === 'RTL' ? 'rtl' : 'auto'
               }`,
           }}
-          className='border-l-2 border-r-2 border-secondary pb-16 overflow-auto h-full scrollbars-width leading-8'
+          className="border-l-2 border-r-2 border-secondary pb-16 overflow-auto h-full scrollbars-width leading-8"
         >
           <Editor {..._props} />
         </div>
