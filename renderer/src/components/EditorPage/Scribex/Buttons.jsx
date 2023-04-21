@@ -8,12 +8,6 @@ import Bars4Icon from '@/icons/Xelah/Bars4.svg';
 import ArrowUturnLeftIcon from '@/icons/Xelah/ArrowUturnLeft.svg';
 import ArrowUturnRightIcon from '@/icons/Xelah/ArrowUturnRight.svg';
 import PencilIcon from '@/icons/Common/Pencil.svg';
-import ArchiveBoxArrow from '@/icons/Xelah/ArchiveBoxArrow.svg';
-import Alert from '@/icons/Xelah/Alert.svg';
-import BarsArrowDown from '@/icons/Xelah/BarsArrowDown.svg';
-import Close from '@/icons/Xelah/Close.svg';
-import Info from '@/icons/Xelah/Info.svg';
-import Refresh from '@/icons/Xelah/Refresh.svg';
 
 export const classNames = (...classes) => classes.filter(Boolean).join(' ');
 
@@ -115,42 +109,6 @@ export default function Buttons(props) {
         aria-hidden="true"
         onClick={() => exportUsfm(bookCode)}
         title="Save"
-      />
-      <ArchiveBoxArrow
-        aria-label="Archive-Icon"
-        className="h-5 mr-2 w-5 text-white cursor-pointer"
-        aria-hidden="true"
-        title="Archive"
-      />
-      <Alert
-        aria-label="Alert-Icon"
-        className="h-5 mr-2 w-5 text-white cursor-pointer"
-        aria-hidden="true"
-        title="Alert"
-      />
-      <BarsArrowDown
-        aria-label="BarsArrowDown-Icon"
-        className="h-5 mr-2 w-5 text-white cursor-pointer"
-        aria-hidden="true"
-        title="BarsArrowDown"
-      />
-      <Refresh
-        aria-label="Refresh-Icon"
-        className="h-5 mr-2 w-5 text-white cursor-pointer"
-        aria-hidden="true"
-        title="Refresh"
-      />
-      <Info
-        aria-label="Info-Icon"
-        className="h-5 mr-2 w-5 text-white cursor-pointer"
-        aria-hidden="true"
-        title="Info"
-      />
-      <Close
-        aria-label="Close-Icon"
-        className="h-5 mr-2 w-5 text-white cursor-pointer"
-        aria-hidden="true"
-        title="Close"
       />
     </>
   );
