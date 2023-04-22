@@ -9078,6 +9078,14 @@
   dependencies:
     "debug" "=3.1.0"
 
+"font-detect-rhl@^1.0.5-1":
+  "integrity" "sha512-gIRKZvNHp751pSI2bWk3kl3ybeUYiO8fXlo4xJQldp4Esp4yPkGslArJgEQXyROCBPdqU/kTyvA7eWWyE/y9oQ=="
+  "resolved" "https://registry.npmjs.org/font-detect-rhl/-/font-detect-rhl-1.0.5-1.tgz"
+  "version" "1.0.5-1"
+  dependencies:
+    "prop-types" "^15.6.1"
+    "use-deep-compare" "^1.1.0"
+
 "font-list@^1.4.5":
   "integrity" "sha512-mLi7Sb4iitgk3mJsTZZDbixssHLoJB4/onWGlQOvTSPW8YPBDQNaMTGOdZ92axQI4UNWwPxV5FmCBOEo1Us7lg=="
   "resolved" "https://registry.npmjs.org/font-list/-/font-list-1.4.5.tgz"

@@ -1,50 +1,38 @@
 /* eslint-disable react/no-array-index-key */
+import { Fragment, useState } from 'react';
 import {
- Fragment, useEffect, useState,
-} from 'react';
-import { Dialog, Listbox, Transition } from '@headlessui/react';
+  Combobox, Dialog, Transition,
+} from '@headlessui/react';
 import {
   CheckIcon,
   BookOpenIcon,
   ChevronUpDownIcon,
 } from '@heroicons/react/24/solid';
-import localforage from 'localforage';
-// import CheckIcon from '@/icons/Common/Check.svg';
-// import ChevronUpDownIcon from '@/icons/Common/ChevronUpDown.svg';
-
-// import { ReferenceContext } from '../context/ReferenceContext';
-import * as logger from '../../logger';
+// import localforage from 'localforage';
+import {
+  useDetectFonts,
+  // useAssumeGraphite,
+  fontList as fontsArray,
+  // graphiteEnabledFontList as graphiteEnabledFontsArray,
+} from 'font-detect-rhl';
 
 export default function MenuDropdown({ selectedFont, setSelectedFont }) {
-  // const {
-  //   state: {
-  //     selectedFont,
-  //   },
-  //   actions: {
-  //     setSelectedFont,
-  //   },
-  // } = useContext(ReferenceContext);
-
-  const [fonts, setFonts] = useState();
-
-  async function getFonts() {
-    logger.debug(
-      'MenuDropdown.js',
-      'In getFonts for fetching the list of font-family',
-    );
-    const fontFamily = await localforage.getItem('font-family');
-    setFonts(fontFamily);
-  }
-
-  useEffect(() => {
-    getFonts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const detectedFonts = useDetectFonts({ fonts: fontsArray });
+  const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+
   function handleFontClick(font) {
     setSelectedFont(font);
     setIsOpen(false);
   }
+
+  const filteredFonts = query === ''
+    ? detectedFonts
+    : detectedFonts.filter((font) => font.name
+      .toLowerCase()
+      .replace(/\s+/g, '')
+      .includes(query.toLowerCase().replace(/\s+/g, '')));
+
   return (
     <>
       <button
@@ -91,76 +79,78 @@ export default function MenuDropdown({ selectedFont, setSelectedFont }) {
                   <Dialog.Title className="text-lg font-medium leading-6 text-gray-900">
                     Font Selector
                   </Dialog.Title>
-                  <Listbox
+                  <Combobox
                     className="w-full"
                     value={selectedFont}
                     onChange={(font) => handleFontClick(font)}
                   >
                     <div className="relative w-full mt-1">
-                      <Listbox.Button
+                      <Combobox.Button
                         aria-label="selected-font"
                         className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm"
                       >
-                        <span className="block truncate">
-                          {selectedFont
-                            || 'Select Font'}
-                        </span>
+                        <Combobox.Input
+                          className="w-full border-none py-1 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+                          displayValue={selectedFont}
+                          onChange={(event) => setQuery(event.target.value)}
+                        />
                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                           <ChevronUpDownIcon
                             className="w-5 h-5 text-gray-400"
                             aria-hidden="true"
                           />
                         </span>
-                      </Listbox.Button>
+                      </Combobox.Button>
                       <Transition
                         as={Fragment}
                         leave="transition ease-in duration-100"
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
+                        afterLeave={() => setQuery('')}
                       >
-                        <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {fonts
-                            && fonts.map(
+                        <Combobox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          {filteredFonts.length === 0 && query !== '' ? (
+                            <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                              No fonts found.
+                            </div>
+                          ) : (detectedFonts
+                            && filteredFonts.map(
                               (
                                 font,
-                                personIdx,
                               ) => (
-                                <Listbox.Option
-                                  key={
-                                    personIdx
-                                  }
-                                  className={({
-                                    active,
-                                  }) => `${active
-                                      ? 'text-amber-900 bg-amber-100'
-                                      : 'text-gray-900'
-                                    }
-                          cursor-default select-none relative py-2 pl-5 pr-4`}
-                                  value={font}
-                                  aria-label={
-                                    font
-                                  }
+                                <Combobox.Option
+                                  key={font.id}
+                                  className={({ active }) => `${active ? 'text-amber-900 bg-amber-100' : 'text-gray-900'}
+                                  cursor-default select-none relative py-2 pl-5 pr-4`}
+                                  value={font.name}
+                                  aria-label={font.name}
                                 >
                                   {({
                                     selectedFont,
                                     active,
                                   }) => (
-                                    <>
+                                    <div className="flex justify-between items-center">
                                       <span
                                         className={`${selectedFont
-                                            ? 'font-medium'
-                                            : 'font-normal'
+                                          ? 'font-medium'
+                                          : 'font-normal'
                                           } block truncate`}
                                       >
-                                        {
-                                          font
-                                        }
+                                        ➤ &nbsp;
+                                        {font.name}
+                                        &nbsp;
+                                      </span>
+                                      <span
+                                        className="truncate"
+                                        style={{ fontFamily: font.name }}
+                                      >
+                                        {font.name}
                                       </span>
                                       {selectedFont ? (
                                         <span
                                           className={`${active
-                                              ? 'text-amber-600'
-                                              : 'text-amber-600'
+                                            ? 'text-amber-600'
+                                            : 'text-amber-600'
                                             }
                                 absolute inset-y-0 left-0 flex items-center pl-3`}
                                         >
@@ -170,15 +160,15 @@ export default function MenuDropdown({ selectedFont, setSelectedFont }) {
                                           />
                                         </span>
                                       ) : null}
-                                    </>
+                                    </div>
                                   )}
-                                </Listbox.Option>
+                                </Combobox.Option>
                               ),
-                            )}
-                        </Listbox.Options>
+                            ))}
+                        </Combobox.Options>
                       </Transition>
                     </div>
-                  </Listbox>
+                  </Combobox>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
