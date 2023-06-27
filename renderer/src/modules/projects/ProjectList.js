@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 'use client';
 
 /* eslint-disable react/jsx-no-useless-fragment */
@@ -16,16 +18,15 @@ import { useTranslation } from 'react-i18next';
 import ProjectsLayout from '@/layouts/projects/Layout';
 import EnhancedTableHead from '@/components/ProjectsPage/Projects/EnhancedTableHead';
 import AutographaContextProvider, { AutographaContext } from '@/components/context/AutographaContext';
-import { getComparator, stableSort } from '@/components/ProjectsPage/Projects/SortingHelper';
 
 import ExportProjectPopUp from '@/layouts/projects/Export/ExportProjectPopUp';
 import ProjectContextProvider from '@/components/context/ProjectContext';
 import JSZip from 'jszip';
+import LoadingScreen from '@/components/Loading/LoadingScreen';
 import SearchTags from './SearchTags';
 import NewProject from './NewProject';
 import * as logger from '../../logger';
 import { supabaseStorage } from '../../../../supabase';
-import LoadingScreen from '@/components/Loading/LoadingScreen';
 
 export default function ProjectList() {
   const router = useRouter();
@@ -38,10 +39,10 @@ export default function ProjectList() {
   const filterList = ['name', 'language', 'type', 'date', 'view'];
   const {
     states: {
-      starredrow,
-      unstarredrow,
-      starredProjects,
-      unstarredProjects,
+      // starredrow,
+      // unstarredrow,
+      // starredProjects,
+      // unstarredProjects,
       loading,
       activeNotificationCount,
     },
@@ -49,7 +50,7 @@ export default function ProjectList() {
       setStarredRow,
       setUnStarredRow,
       handleClickStarred,
-      archiveProject,
+      // archiveProject,
       setSelectedProject,
       setLoading,
       setNotifications,
@@ -62,7 +63,7 @@ export default function ProjectList() {
   const [currentProject, setCurrentProject] = useState();
 
   const openExportPopUp = async (project) => {
-    console.log("Exporting project...");
+    console.log('Exporting project...');
     setLoading(true);
     setCurrentProject(project);
     // setOpenPopUp(true);
@@ -116,6 +117,7 @@ export default function ProjectList() {
   };
 
   const handleSelectProject = (event, projectName, projectId) => {
+    setLoading(true);
     logger.debug('ProjectList.js', 'In handleSelectProject');
     setSelectedProject(projectName);
     localforage.setItem('currentProject', `${projectName}_${projectId}`);
@@ -132,6 +134,7 @@ export default function ProjectList() {
       setNotifications(temp);
     }).then(() => setActiveNotificationCount(activeNotificationCount + 1));
     console.log({ projectName, projectId });
+    // setLoading(false);
   };
 
   const editproject = async (project) => {
